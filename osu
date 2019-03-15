@@ -1,0 +1,527 @@
+##Pide la IP
+direccion=raw_input("Dime una ip: ")
+
+##Divide la ip por octetos
+a,b,c,d=direccion.split(".")
+
+##Pasa a numeros enteros los octetos
+a=int(a)
+b=int(b)
+c=int(c)
+d=int(d)
+
+
+##Variable para pasar de decimal a binario
+def binarizar(decimal):
+    binario = ''
+    while decimal // 2 != 0:
+        binario = str(decimal % 2) + binario
+        decimal = decimal // 2
+    return str(decimal) + binario
+
+
+def full_subnetmask(subnet_mask):
+	
+	subnet_mask = int(subnet_mask)
+	
+	ones = subnet_mask * '1'
+	zeros = '0' * (32 - subnet_mask)
+	
+	subnetmask_binary = ones + zeros
+	
+	octet1 = int(subnetmask_binary[0:8], 2)
+	octet2 = int(subnetmask_binary[8:16], 2)
+	octet3 = int(subnetmask_binary[16:24], 2)
+	octet4 = int(subnetmask_binary[24:32], 2)
+	
+	subnetmask_decimal = str(octet1) + '.' + str(octet2) + '.' + str(octet3) + '.' + str(octet4)
+	
+	print('Subnet mask:', subnetmask_decimal, '\n')
+
+
+##Condicion si el primer octeto esta entre el 1 y el 126
+if a >= 1 and a <= 126:  
+	print ("Es de clase A")  
+	if a == 10:
+		print "Es privada"
+	else: 
+		print"Es publica"
+##Averiguar la longitud del numero en binario para anadir los ceros
+	longitud1 =(len(binarizar(a)))
+	restante1= 8-longitud1
+	restante1=int(restante1)
+
+	longitud2 =(len(binarizar(b)))
+	restante2= 8-longitud2
+	restante2=int(restante2)
+
+	longitud3 =(len(binarizar(c)))
+	restante3= 8-longitud3
+	restante3=int(restante3)
+
+	longitud4 =(len(binarizar(d)))
+	restante4= 8-longitud4
+	restante4=int(restante4)
+
+	octeto1=binarizar(a)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(restante1):
+		octeto1= "0" + str(octeto1)
+
+	octeto2=binarizar(b)
+
+	for i in range(restante2):
+		octeto2= "0" + str(octeto2)
+
+	octeto3=binarizar(c)
+
+	for i in range(restante3):
+		octeto3= "0" + str(octeto3)
+
+	octeto4=binarizar(d)
+
+	for i in range(restante4):
+		octeto4= "0" + str(octeto4)
+
+	print ("La ip en binario es:      " + octeto1 + "." + octeto2 + "." + octeto3 + "." + octeto4)
+	mascara="255.0.0.0"
+	print ("La mascara por defecto es: " + mascara)
+
+##Divide la mascara por octetos	
+	g,h,j,k=mascara.split(".")
+
+##Pasa a numeros enteros los octetos
+	g=int(g)
+	h=int(h)
+	j=int(j)
+	k=int(k)
+
+##Averiguar la longitud del numero en binario para anadir los ceros
+	longitud5=(len(binarizar(g)))
+	restante5= 8-longitud5
+	restante5=int(restante5)
+
+	longitud6 =(len(binarizar(h)))
+	restante6= 8-longitud6
+	restante6=int(restante6)
+
+	longitud7 =(len(binarizar(j)))
+	restante7= 8-longitud7
+	restante7=int(restante7)
+
+	longitud8 =(len(binarizar(k)))
+	restante8= 8-longitud8
+	restante8=int(restante8)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+
+	octeto5=binarizar(g)
+
+	for i in range(restante5):
+		octeto5= "0" + str(octeto5)
+
+	octeto6=binarizar(h)
+
+	for i in range(restante6):
+		octeto6= "0" + str(octeto6)
+
+	octeto7=binarizar(j)
+
+	for i in range(restante7):
+		octeto7= "0" + str(octeto7)
+
+	octeto8=binarizar(k)
+
+	for i in range(restante8):
+		octeto8= "0" + str(octeto8)
+
+	print ("La mascara en binario es: " + octeto5 + "." + octeto6 + "." + octeto7 + "." + octeto8)
+
+##Pasamos los octetos a binario
+	primera=int(octeto1,2)
+	segunda=int(octeto2,2)
+	tercera=int(octeto3,2)
+	cuarta=int(octeto4,2)
+
+##Pasamos los octetos a binario
+	pr =int(octeto5,2)
+	se=int(octeto6,2)
+	te=int(octeto7,2)
+	cu=int(octeto8,2)
+
+##Comparamos los octetos en binario
+	quinta=	primera & pr
+	sexta= segunda & se
+	septima= tercera & te
+	octava= cuarta & cu
+
+##Multiplicar la IP por la mascara (binario)
+	entero= (binarizar(quinta))+"."+(binarizar(sexta))+"."+(binarizar(septima))+"."+(binarizar(octava))
+
+##Dividir por octetos	
+	e,r,t,y=entero.split(".")
+
+##Averiguar la longitud del numero en binario para anadir los ceros
+	lon5=len(e)
+	res5= 8-lon5
+	res5=int(res5)
+
+	lon6 =len(r)
+	res6= 8-lon6
+	res6=int(res6)
+
+	lon7 =len(t)
+	res7= 8-lon7
+	res7=int(res7)
+
+	lon8 =len(y)
+	res8= 8-lon8
+	res8=int(res8)
+
+	oct5=(e)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(res5):
+		oct5= "0" + str(oct5)
+
+	oct6=(r)
+
+	for i in range(res6):
+		oct6= "0" + str(oct6)
+
+	oct7=(t)
+
+	for i in range(res7):
+		oct7= "0" + str(oct7)
+
+	oct8=(y)
+
+	for i in range(res8):
+		oct8= "0" + str(oct8)
+
+	print "Direccion IP binario:     "+ oct5 +"."+ oct6 +"."+ oct7 +"."+ oct8
+
+
+if a >= 128 and a <= 191:
+	print ("Es de clase B")  
+	if a == 172 and b >= 16 and b <= 31:
+		print "Es privada"
+	else: 
+		print"Es publica"
+##Averiguar la longitud del numero en binario para anadir los ceros
+	longitud1 =(len(binarizar(a)))
+	restante1= 8-longitud1
+	restante1=int(restante1)
+
+	longitud2 =(len(binarizar(b)))
+	restante2= 8-longitud2
+	restante2=int(restante2)
+
+	longitud3 =(len(binarizar(c)))
+	restante3= 8-longitud3
+	restante3=int(restante3)
+
+	longitud4 =(len(binarizar(d)))
+	restante4= 8-longitud4
+	restante4=int(restante4)
+
+	octeto1=binarizar(a)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(restante1):
+		octeto1= "0" + str(octeto1)
+
+	octeto2=binarizar(b)
+
+	for i in range(restante2):
+		octeto2= "0" + str(octeto2)
+
+	octeto3=binarizar(c)
+
+	for i in range(restante3):
+		octeto3= "0" + str(octeto3)
+
+	octeto4=binarizar(d)
+
+	for i in range(restante4):
+		octeto4= "0" + str(octeto4)
+
+	print ("La ip en binario es:      " + octeto1 + "." + octeto2 + "." + octeto3 + "." + octeto4)
+	mascara="255.255.0.0"
+	print ("La mascara por defecto es: " + mascara)
+
+##Divide la mascara por octetos	
+	g,h,j,k=mascara.split(".")
+
+##Pasa a numeros enteros los octetos
+	g=int(g)
+	h=int(h)
+	j=int(j)
+	k=int(k)
+
+##Averiguar la longitud del numero en binario para anadir los ceros
+	longitud5=(len(binarizar(g)))
+	restante5= 8-longitud5
+	restante5=int(restante5)
+
+	longitud6 =(len(binarizar(h)))
+	restante6= 8-longitud6
+	restante6=int(restante6)
+
+	longitud7 =(len(binarizar(j)))
+	restante7= 8-longitud7
+	restante7=int(restante7)
+
+	longitud8 =(len(binarizar(k)))
+	restante8= 8-longitud8
+	restante8=int(restante8)
+
+	octeto5=binarizar(g)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(restante5):
+		octeto5= "0" + str(octeto5)
+
+	octeto6=binarizar(h)
+
+	for i in range(restante6):
+		octeto6= "0" + str(octeto6)
+
+	octeto7=binarizar(j)
+
+	for i in range(restante7):
+		octeto7= "0" + str(octeto7)
+
+	octeto8=binarizar(k)
+
+	for i in range(restante8):
+		octeto8= "0" + str(octeto8)
+
+	print ("La mascara en binario es: " + octeto5 + "." + octeto6 + "." + octeto7 + "." + octeto8)
+
+##Pasamos los octetos a binario
+	primera=int(octeto1,2)
+	segunda=int(octeto2,2)
+	tercera=int(octeto3,2)
+	cuarta=int(octeto4,2)
+
+##Pasamos los octetos a binario
+	pr =int(octeto5,2)
+	se=int(octeto6,2)
+	te=int(octeto7,2)
+	cu=int(octeto8,2)
+
+##Comparamos los octetos en binario
+	quinta=	primera & pr
+	sexta= segunda & se
+	septima= tercera & te
+	octava= cuarta & cu
+
+##Multiplicar la IP por la mascara (binario)
+	entero= (binarizar(quinta))+"."+(binarizar(sexta))+"."+(binarizar(septima))+"."+(binarizar(octava))
+
+##Dividir por octetos	
+	e,r,t,y=entero.split(".")
+
+##Averiguar la longitud del numero en binario para anadir los ceros
+	lon5=len(e)
+	res5= 8-lon5
+	res5=int(res5)
+
+	lon6 =len(r)
+	res6= 8-lon6
+	res6=int(res6)
+
+	lon7 =len(t)
+	res7= 8-lon7
+	res7=int(res7)
+
+	lon8 =len(y)
+	res8= 8-lon8
+	res8=int(res8)
+
+	oct5=(e)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(res5):
+		oct5= "0" + str(oct5)
+
+	oct6=(r)
+
+	for i in range(res6):
+		oct6= "0" + str(oct6)
+
+	oct7=(t)
+
+	for i in range(res7):
+		oct7= "0" + str(oct7)
+
+	oct8=(y)
+
+	for i in range(res8):
+		oct8= "0" + str(oct8)
+
+	print "Direccion IP binario:     "+ oct5 +"."+ oct6 +"."+ oct7 +"."+ oct8
+
+	
+if a >= 192 and a <= 223:
+	print ("Es de clase C")  
+	if a == 168 or b == 168:
+		print "Es privada"
+	else: 
+		print"Es publica"
+##Averiguar la longitud del numero en binario para anadir los ceros
+	longitud1 =(len(binarizar(a)))
+	restante1= 8-longitud1
+	restante1=int(restante1)
+
+	longitud2 =(len(binarizar(b)))
+	restante2= 8-longitud2
+	restante2=int(restante2)
+
+	longitud3 =(len(binarizar(c)))
+	restante3= 8-longitud3
+	restante3=int(restante3)
+
+	longitud4 =(len(binarizar(d)))
+	restante4= 8-longitud4
+	restante4=int(restante4)
+
+	octeto1=binarizar(a)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(restante1):
+		octeto1= "0" + str(octeto1)
+
+	octeto2=binarizar(b)
+
+	for i in range(restante2):
+		octeto2= "0" + str(octeto2)
+
+	octeto3=binarizar(c)
+
+	for i in range(restante3):
+		octeto3= "0" + str(octeto3)
+
+	octeto4=binarizar(d)
+
+	for i in range(restante4):
+		octeto4= "0" + str(octeto4)
+
+	print ("La ip en binario es:      " + octeto1 + "." + octeto2 + "." + octeto3 + "." + octeto4)
+	mascara="255.255.255.0"
+	print ("La mascara por defecto es: " + mascara)
+
+##Divide la mascara por octetos	
+	g,h,j,k=mascara.split(".")
+
+##Pasa a numeros enteros los octetos
+	g=int(g)
+	h=int(h)
+	j=int(j)
+	k=int(k)
+
+##Averiguar la longitud del numero en binario para anadir los ceros
+	longitud5=(len(binarizar(g)))
+	restante5= 8-longitud5
+	restante5=int(restante5)
+
+	longitud6 =(len(binarizar(h)))
+	restante6= 8-longitud6
+	restante6=int(restante6)
+
+	longitud7 =(len(binarizar(j)))
+	restante7= 8-longitud7
+	restante7=int(restante7)
+
+	longitud8 =(len(binarizar(k)))
+	restante8= 8-longitud8
+	restante8=int(restante8)
+
+	octeto5=binarizar(g)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(restante5):
+		octeto5= "0" + str(octeto5)
+
+	octeto6=binarizar(h)
+
+	for i in range(restante6):
+		octeto6= "0" + str(octeto6)
+
+	octeto7=binarizar(j)
+
+	for i in range(restante7):
+		octeto7= "0" + str(octeto7)
+
+	octeto8=binarizar(k)
+
+	for i in range(restante8):
+		octeto8= "0" + str(octeto8)
+
+	print ("La mascara en binario es: " + octeto5 + "." + octeto6 + "." + octeto7 + "." + octeto8)
+
+##Pasamos los octetos a binario
+	primera=int(octeto1,2)
+	segunda=int(octeto2,2)
+	tercera=int(octeto3,2)
+	cuarta=int(octeto4,2)
+
+##Pasamos los octetos a binario
+	pr =int(octeto5,2)
+	se=int(octeto6,2)
+	te=int(octeto7,2)
+	cu=int(octeto8,2)
+
+##Comparamos los octetos en binario
+	quinta=	primera & pr
+	sexta= segunda & se
+	septima= tercera & te
+	octava= cuarta & cu
+
+##Multiplicar la IP por la mascara (binario)
+	entero= (binarizar(quinta))+"."+(binarizar(sexta))+"."+(binarizar(septima))+"."+(binarizar(octava))
+
+##Dividir por octetos	
+	e,r,t,y=entero.split(".")
+
+##Averiguar la longitud del numero en binario para anadir los ceros
+	lon5=len(e)
+	res5= 8-lon5
+	res5=int(res5)
+
+	lon6 =len(r)
+	res6= 8-lon6
+	res6=int(res6)
+
+	lon7 =len(t)
+	res7= 8-lon7
+	res7=int(res7)
+
+	lon8 =len(y)
+	res8= 8-lon8
+	res8=int(res8)
+
+	oct5=(e)
+
+##Se suma la cantidad restante que le hace falta para que se convierta en 8bits
+	for i in range(res5):
+		oct5= "0" + str(oct5)
+
+	oct6=(r)
+
+	for i in range(res6):
+		oct6= "0" + str(oct6)
+
+	oct7=(t)
+
+	for i in range(res7):
+		oct7= "0" + str(oct7)
+
+	oct8=(y)
+
+	for i in range(res8):
+		oct8= "0" + str(oct8)
+
+	print "Direccion IP binario:     "+ oct5 +"."+ oct6 +"."+ oct7 +"."+ oct8
