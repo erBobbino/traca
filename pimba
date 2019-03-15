@@ -1,0 +1,51 @@
+from ftplib import FTP
+print""
+var=raw_input("Dime a que servidor te quieres conectar: ")	#Pide la direccion del servidor al que quieres conectarte
+ftp = FTP(var)	#Se conecta al servidor FTP
+print""
+
+usuario=raw_input("Dime el usuario: ")	#Se introduce le usuario
+contrasena=raw_input("Dime la contrasena: ")	#Se introduce una contraseña
+
+ftp.login(usuario, contrasena)	#Se logea con el usuario y contraseña
+
+def menu():	#Se define menu para cada vez que hagas una accion se muestre
+	print""
+	print"============================"
+	print"1. Crear carpeta"
+	print"2. Borrar carpeta"
+	print"3. Moverte de directorio"
+	print"4. Renombrar"
+	print"5. Salir"
+	print"============================"
+	print""
+print""
+
+while True:	#Bucle para que siempre este activo
+	menu() #Se pide que se muestre el menu
+	ftp.retrlines('LIST') #Hace que muestre todo el contenido de donde estes
+	print""
+	var=raw_input("Que quieres hacer: ")	
+	print""
+	if var == '1': #Si eliges la opcion 1 hace lo siguiente
+		traca=raw_input("Como quieres que se llame: ")
+		print""
+		ftp.mkd(traca)	#Hace que se cree una carpeta
+		ftp.retrlines('LIST')	#Hace que muestre todo el contenido de donde estes
+		print""
+	if var == '2':
+		traca=raw_input("Que carpeta quieres borrar: ")
+		ftp.rmd(traca)	#Hace que se borre una carpeta
+		print""
+		ftp.retrlines('LIST') #Hace que muestre todo el contenido de donde estes
+	if var == '3':
+		traca=raw_input("A que carpeta quieres entrar: ")
+		print""
+		ftp.dir(traca) #Hace que entres a un directorio
+	if var == '4':
+		nombre=raw_input("A que archivo quieres modificar el nombre: ")
+		nuevo=raw_input("Como quieres que se llame: ")
+		ftp.rename(nombre,nuevo)	#Hace que se cambie el nombre de un archivo
+		ftp.retrlines('LIST') #Hace que muestre todo el contenido de donde estes
+	if var == '5':
+		break #Termina el programa
